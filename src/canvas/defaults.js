@@ -1,5 +1,3 @@
-var merge = require('lodash/merge');
-
 var DEFAULTS = {
   batchSize: 500,
   padding: 20,
@@ -20,18 +18,15 @@ exports.DEFAULTS = DEFAULTS;
 exports.refineSettings = function refineSettings(settings) {
   settings = settings || {};
 
-  var dimensions = {
-    width: settings.width,
-    height: settings.height
-  };
+  var dimensions = {};
 
-  if (dimensions.width && !dimensions.height)
-    dimensions.height = dimensions.width;
+  if (settings.width && !settings.height)
+    dimensions.height = settings.width;
 
-  if (dimensions.height && !dimensions.width)
-    dimensions.width = dimensions.height;
+  if (settings.height && !settings.width)
+    dimensions.width = settings.height;
 
-  settings = merge({}, DEFAULTS, settings, dimensions);
+  settings = Object.assign({}, DEFAULTS, settings, dimensions);
 
   if (!settings.width && !settings.height)
     throw new Error(
